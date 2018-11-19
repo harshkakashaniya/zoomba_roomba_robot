@@ -1,0 +1,16 @@
+<launch>
+# to set logger level to DEBUG
+# to initiate talker in new terminal with arguments
+# condition for roslaunch to be ok.
+# argument passed in talker
+ <include file="$(find turtlebot_gazebo)/launch/turtlebot_world.launch">
+</include>
+
+<node
+pkg="zoomba_roomba_robot"
+type="smart"
+name="smart"
+required ="true"
+/>
+
+</launch>
