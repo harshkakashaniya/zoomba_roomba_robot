@@ -38,12 +38,28 @@
 #include "Walker.hpp"
 
 Walker::Walker() {
-	// TODO Auto-generated constructor stub
+	float SetRange = 0.5;  // set range of 0.5 m for trial
+  laserSubscribe = nh.subscribe < sensor_msgs::LaserScan
+      > ("/scan", 10, &Walker::processLaserScan, this);
 
+  ROS_INFO("Range of %f m is set to avoid obstacles.",SetRange)
 }
 
 void LaserScan(const sensor_msgs::LaserScan::ConstPtr &scan) {
-// TODO Implementation for scanning
+  // Let first element be minimum distance
+  float minDis = scan->ranges[0];
+   // for loop for minimum distance
+for (int i = 0; i < scan->ranges.size(); i++) {
+  float currentVal = scanMsg->ranges[i];
+    // comparison of values
+    if (currentVal < minDis) {
+        minDistance = currentScanVal;
+    }
+  }
+  // obstacle near by signal
+   if (minDistance < SetRange) {
+    ROS_INFO("Terrain!");
+  }
 }
 
 void Motion(bool movement) {

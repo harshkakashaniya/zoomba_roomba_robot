@@ -50,7 +50,7 @@ class Walker {
 public:
 	Walker();
 private:
-	ros::NodeHandle n;
+	ros::NodeHandle nh;
 	bool movement;
 	ros::Subscriber laserSubscribe;
 	ros::Publisher velocityPublish;
