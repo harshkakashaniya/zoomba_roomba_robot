@@ -37,16 +37,19 @@
  *
  */
 
+// required libraries added
 #include <sstream>
 #include <iostream>
+// ROS package added
 #include "ros/ros.h"
+// type of message we are publishing to
 #include "geometry_msgs/Twist.h"
+// class from which commands are executed
 #include "../include/Walker.hpp"
 
 int main(int argc, char **argv) {
-
 ros::init(argc, argv, "smart");
-Walker Bot;
-Bot.Motion();
-   return 0;
+Walker Bot;  // Member of class Walker
+Bot.Motion();  // method for robot movement
+  return 0;
 }

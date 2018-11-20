@@ -1,20 +1,21 @@
 <launch>
-
+# Argument for record on/off or ROSbag file
 <arg
     name="Record"
     default = "false"
 />
-
+# Added environment for our simulation
  <include file="$(find turtlebot_gazebo)/launch/turtlebot_world.launch">
 </include>
-
+# Added node which takes laser data and gives motion to robot
 <node
 pkg="zoomba_roomba_robot"
 type="smart"
 name="smart"
 required ="true"
-
 />
+
+#Rosbag recording when arg passes in true.
 <node
     pkg = "rosbag"
     name = "record"

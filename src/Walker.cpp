@@ -36,57 +36,65 @@
  *
  */
 #include "../include/Walker.hpp"
-
+/**
+  *   @brief Default constructor for Walker
+  *
+  */
 Walker::Walker() {
-	SetRange = 1;  // set range of 1 m for trial
+  SetRange = 1;  // set range of 1 m for trial
   laserSubscribe = nh.subscribe < sensor_msgs::LaserScan
-      > ("/scan", 10, &Walker::LaserScan, this);
+      > ("/scan", 10, &Walker::LaserScan, this);  // subscribe LaserScan
 
-  ROS_INFO("Range of %f m is set to avoid obstacles.",SetRange);
-
-
+  ROS_INFO("Range of %f m is set to avoid obstacles.", SetRange);
+  movement = true;
 }
-
+/**
+ *   @brief Method to scan laser and find distance of obstacles.
+ *
+ *   @param laser sensor data.
+ */
 void Walker::LaserScan(const sensor_msgs::LaserScan::ConstPtr &scan) {
-  // Let first element be minimum distance
-  float minDis = scan->ranges[0];
-   // for loop for minimum distance
-for (int i = 0; i < scan->ranges.size(); i++) {
-  float currentVal = scan->ranges[i];
+  float minDis = scan->ranges[0];  // Let first element be minimum distance
+  // for loop for minimum distance
+    for (int i = 0; i < scan->ranges.size(); i++) {
+      float currentVal = scan->ranges[i];
     // comparison of values
     if (currentVal < minDis) {
-        minDis = currentVal;
+        minDis = currentVal;  // minimum value found in array
     }
   }
   // obstacle near by signal
-   if (minDis < SetRange) {
-    ROS_INFO("Crash! %f",minDis);
+  if (minDis < SetRange) {
+    ROS_WARN("Crash! chances, Distance = %f", minDis);  // distance less than
     movement = false;
-    }
-  else {
-    ROS_INFO("Working Fine!! %f",minDis);
+    } else {
+    ROS_INFO("Working Fine!! Go straight %f", minDis);  // every thing ok
     movement = true;
-  }
+    }
 }
 
+/**
+ *   @brief Method to move robot according to laser output
+ *
+ *   @param none
+ */
 void Walker::Motion() {
-
 ros::Rate loop_rate(2.0);
-velocityPublish = nh.advertise<geometry_msgs::Twist>("cmd_vel_mux/input/teleop", 1000);
-
+// publish velocity
+velocityPublish = nh.advertise<geometry_msgs::Twist>(
+"cmd_vel_mux/input/teleop", 1000);
 geometry_msgs::Twist command;
- // Here you build your twist message
+// Here you build your twist message
 if (movement) {
-  ROS_INFO("Translating %f",command.linear.x );
+  ROS_INFO("Translating %f", command.linear.x);
   command.linear.x = 0.2;
   command.linear.y = 0.0;
   command.linear.z = 0.0;
   command.angular.z = 0;
   command.angular.y = 0;
   command.angular.x = 0;
-  }
-else {
-  ROS_INFO("Rotating %f",command.linear.x);
+  } else {
+  ROS_INFO("Rotating %f", command.linear.x);
   command.linear.x = 0;
   command.linear.y = 0;
   command.linear.z = 0;
@@ -95,15 +103,16 @@ else {
   command.angular.x = 0;
   }
 
- while(ros::ok()) {
+  while (ros::ok()) {
      velocityPublish.publish(command);
      ros::spinOnce();
      loop_rate.sleep();
-   }
-
 }
-
-
+}
+/**
+  *   @brief Default disstructor for Walker
+  *
+  */
 Walker::~Walker() {
   geometry_msgs::Twist command;
   command.linear.x = 0;
