@@ -23,7 +23,7 @@
  *************************************************************************/
 
 /**
- *  @file    main.cpp
+ *  @file    Walker.cpp
  *  @author  Harsh Kakashaniya
  *  @date    11/19/2018
  *  @version 1.0
@@ -32,44 +32,25 @@
  *
  *  @Description DESCRIPTION
  *
- *  This file is used to publish message to turtle bot to avoid obstacle and
- *   move around
+ *  This file is used to implement sensor data and command robot to move
  *
  */
+#include "Walker.hpp"
 
-#include <sstream>
-#include <iostream>
-#include "ros/ros.h"
-#include "geometry_msgs/Twist.h"
-#include "../include/Walker.hpp"
+Walker::Walker() {
+	// TODO Auto-generated constructor stub
 
-int main(int argc, char **argv)
- {
+}
 
-ros::init(argc, argv, "smart");
+void LaserScan(const sensor_msgs::LaserScan::ConstPtr &scan) {
+// TODO Implementation for scanning
+}
 
-ros::NodeHandle nh;
-ros::Publisher smart_pub = nh.advertise<geometry_msgs::Twist>("cmd_vel_mux/input/teleop", 1000);
+void Motion(bool movement) {
+// TODO Implementation of Robot control
+}
 
-  geometry_msgs::Twist command;
-  ros::Rate loop_rate(5.0);
-   // Here you build your twist message
-   command.linear.x = 1;
-   command.linear.y = 0;
-   command.linear.z = 0;
 
-   command.angular.x = 0;
-   command.angular.y = 0;
-   command.angular.z = 0;
-
-   while(ros::ok() )
-   {
-       smart_pub.publish(command);
-
-       // Time between messages, so you don't blast out an thousands of
-       // messages in your 3 secondperiod
-       loop_rate.sleep();
-   }
-
-   return 0;
-    }
+Walker::~Walker() {
+	// TODO Auto-generated destructor stub
+}
