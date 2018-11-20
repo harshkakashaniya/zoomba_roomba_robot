@@ -1,6 +1,5 @@
 # Zoomba_Roomba_Robot
-Implementing algorithm for floor vacuum cleaner.
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/harshkakashaniya/zoomba_roomba_robot/blob/master/LICENSE)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/harshkakashaniya/zoomba_roomba_robot/blob/master/LICENSE)
 
 ## Overview
 
@@ -81,6 +80,11 @@ Press Ctrl+C
 ```
 ## Inspecting the bag file
 to check what are the details of any particular bag file.
+
+```
+roscore
+```
+First command if roscore not already working else launch file should be working. 
 ```
 cd ~catkin_ws/
 rosbag info src/zoomba_roomba_robot/results/Walker.bag
@@ -138,7 +142,11 @@ topics:      /clock                                            2949 msgs    : ro
 ```
 
 
-## Playing back the bag file with the Listener node demonstration.
+## Playing back the bag file following will be the output
+```
+roscore
+```
+First command if roscore not already working
 ```
 cd catkin_ws/
 source devel/setup.bash
