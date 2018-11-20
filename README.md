@@ -87,12 +87,12 @@ roscore
 First command if roscore not already working else launch file should be working. 
 ```
 cd ~catkin_ws/
-rosbag info src/zoomba_roomba_robot/results/Walker.bag
+rosbag info src/zoomba_roomba_robot/results/SampleWalker.bag
 
 ```
 We will see similar ouput
 ```
-path:        results/Walker.bag
+path:        results/SampleWalker.bag
 version:     2.0
 duration:    29.4s
 start:       Dec 31 1969 19:00:00.29 (0.29)
@@ -150,11 +150,11 @@ First command if roscore not already working
 ```
 cd catkin_ws/
 source devel/setup.bash
-rosbag play src/zoomba_roomba_robot/results/Walker.bag
+rosbag play src/zoomba_roomba_robot/results/SampleWalker.bag
 ```
 Similar is the output of Rosbag when the above code is run.
 ```
-[ INFO] [1542738013.410444920]: Opening src/zoomba_roomba_robot/results/Walker.bag
+[ INFO] [1542738013.410444920]: Opening src/zoomba_roomba_robot/results/SampleWalker.bag
 
 Waiting 0.2 seconds after advertising topics... done.
 
