@@ -79,31 +79,24 @@ void Walker::LaserScan(const sensor_msgs::LaserScan::ConstPtr &scan) {
  *   @param none
  */
 void Walker::Motion() {
-ros::Rate loop_rate(2.0);
+ros::Rate loop_rate(5.0);
 // publish velocity
 velocityPublish = nh.advertise<geometry_msgs::Twist>(
 "cmd_vel_mux/input/teleop", 1000);
 geometry_msgs::Twist command;
 // Here you build your twist message
-if (movement) {
-  ROS_INFO("Translating %f", command.linear.x);
-  command.linear.x = 0.2;
-  command.linear.y = 0.0;
-  command.linear.z = 0.0;
-  command.angular.z = 0;
-  command.angular.y = 0;
-  command.angular.x = 0;
-  } else {
-  ROS_INFO("Rotating %f", command.linear.x);
-  command.linear.x = 0;
-  command.linear.y = 0;
-  command.linear.z = 0;
-  command.angular.z = 1;
-  command.angular.y = 0;
-  command.angular.x = 0;
-  }
+
 
   while (ros::ok()) {
+    if (movement) {
+      ROS_INFO("Translating %f", command.linear.x);
+      command.linear.x = 1;
+      command.angular.z = 0;
+      } else {
+      ROS_INFO("Rotating %f", command.linear.x);
+      command.linear.x = 0;
+      command.angular.z = 0.8;
+      }
      velocityPublish.publish(command);
      ros::spinOnce();
      loop_rate.sleep();
