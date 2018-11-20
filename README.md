@@ -72,6 +72,17 @@ source devel/setup.bash
 roslaunch zoomba_roomba_robot zoomba.launch Record:=true
 ```
 by this command we will have Walker.bag file in result folder. One such sample file is kept in result/Walker.bag
+We can also run command without Record:=true argument
+
+## Robot in other environment.
+On customized environment made in Gazebo and we can still run our algorithm just we need to make sure that package has required topics to publish and subscribe to
+```
+cd ~/catkin_ws
+source devel/setup.bash
+rosrun zoomba_roomba_robot smart
+```
+Following environment will be on and robot will automatically start moving.
+![](images/GUI.jpg)
 
 ## Disable bag file recording,
 To Disable bag file recording, come to terminal
