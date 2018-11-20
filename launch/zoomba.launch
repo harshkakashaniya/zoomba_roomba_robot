@@ -1,8 +1,10 @@
 <launch>
-# to set logger level to DEBUG
-# to initiate talker in new terminal with arguments
-# condition for roslaunch to be ok.
-# argument passed in talker
+
+<arg
+    name="Record"
+    default = "false"
+/>
+
  <include file="$(find turtlebot_gazebo)/launch/turtlebot_world.launch">
 </include>
 
@@ -11,6 +13,15 @@ pkg="zoomba_roomba_robot"
 type="smart"
 name="smart"
 required ="true"
+
+/>
+<node
+    pkg = "rosbag"
+    name = "record"
+    type = "record"
+    args = "-a -x /camera/(.*) -O $(find zoomba_roomba_robot)/results/Walker.bag"
+    if = "$(arg Record)"
+    output = "screen"
 />
 
 </launch>
