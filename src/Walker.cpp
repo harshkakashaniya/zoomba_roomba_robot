@@ -35,38 +35,81 @@
  *  This file is used to implement sensor data and command robot to move
  *
  */
-#include "Walker.hpp"
+#include "../include/Walker.hpp"
 
 Walker::Walker() {
-	float SetRange = 0.5;  // set range of 0.5 m for trial
+	SetRange = 1;  // set range of 1 m for trial
   laserSubscribe = nh.subscribe < sensor_msgs::LaserScan
-      > ("/scan", 10, &Walker::processLaserScan, this);
+      > ("/scan", 10, &Walker::LaserScan, this);
 
-  ROS_INFO("Range of %f m is set to avoid obstacles.",SetRange)
+  ROS_INFO("Range of %f m is set to avoid obstacles.",SetRange);
+
+
 }
 
-void LaserScan(const sensor_msgs::LaserScan::ConstPtr &scan) {
+void Walker::LaserScan(const sensor_msgs::LaserScan::ConstPtr &scan) {
   // Let first element be minimum distance
   float minDis = scan->ranges[0];
    // for loop for minimum distance
 for (int i = 0; i < scan->ranges.size(); i++) {
-  float currentVal = scanMsg->ranges[i];
+  float currentVal = scan->ranges[i];
     // comparison of values
     if (currentVal < minDis) {
-        minDistance = currentScanVal;
+        minDis = currentVal;
     }
   }
   // obstacle near by signal
-   if (minDistance < SetRange) {
-    ROS_INFO("Terrain!");
+   if (minDis < SetRange) {
+    ROS_INFO("Crash! %f",minDis);
+    movement = false;
+    }
+  else {
+    ROS_INFO("Working Fine!! %f",minDis);
+    movement = true;
   }
 }
 
-void Motion(bool movement) {
-// TODO Implementation of Robot control
+void Walker::Motion() {
+
+ros::Rate loop_rate(2.0);
+velocityPublish = nh.advertise<geometry_msgs::Twist>("cmd_vel_mux/input/teleop", 1000);
+
+geometry_msgs::Twist command;
+ // Here you build your twist message
+if (movement) {
+  ROS_INFO("Translating %f",command.linear.x );
+  command.linear.x = 0.2;
+  command.linear.y = 0.0;
+  command.linear.z = 0.0;
+  command.angular.z = 0;
+  command.angular.y = 0;
+  command.angular.x = 0;
+  }
+else {
+  ROS_INFO("Rotating %f",command.linear.x);
+  command.linear.x = 0;
+  command.linear.y = 0;
+  command.linear.z = 0;
+  command.angular.z = 1;
+  command.angular.y = 0;
+  command.angular.x = 0;
+  }
+
+ while(ros::ok()) {
+     velocityPublish.publish(command);
+     ros::spinOnce();
+     loop_rate.sleep();
+   }
+
 }
 
 
 Walker::~Walker() {
-	// TODO Auto-generated destructor stub
+  geometry_msgs::Twist command;
+  command.linear.x = 0;
+  command.linear.y = 0;
+  command.linear.y = 0;
+  command.angular.z = 0;
+  command.angular.y = 0;
+  command.angular.x = 0;
 }

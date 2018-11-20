@@ -36,8 +36,8 @@
  *
  */
 
-#ifndef WALKER_H_
-#define WALKER_H_
+ #ifndef INCLUDE_WALKER_HPP_
+ #define INCLUDE_WALKER_HPP_
 // ROS package
 #include <ros/ros.h>
 // For moving robot according to our wish publishing data
@@ -49,17 +49,18 @@
 class Walker {
 public:
 	Walker();
+	~Walker();
+	void LaserScan(const sensor_msgs::LaserScan::ConstPtr &scan);
+	void Motion();
+
 private:
 	ros::NodeHandle nh;
 	bool movement;
 	ros::Subscriber laserSubscribe;
 	ros::Publisher velocityPublish;
+	float SetRange;
 	geometry_msgs::Twist msg;
 
-	void LaserScan(const sensor_msgs::LaserScan::ConstPtr &scan);
-	void Motion(bool movement);
-
-	virtual ~Walker();
 };
 
-#endif /* WALKER_H_ */
+#endif  // INCLUDE_WALKER_HPP_

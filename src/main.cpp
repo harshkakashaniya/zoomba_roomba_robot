@@ -43,33 +43,10 @@
 #include "geometry_msgs/Twist.h"
 #include "../include/Walker.hpp"
 
-int main(int argc, char **argv)
- {
+int main(int argc, char **argv) {
 
 ros::init(argc, argv, "smart");
-
-ros::NodeHandle nh;
-ros::Publisher smart_pub = nh.advertise<geometry_msgs::Twist>("cmd_vel_mux/input/teleop", 1000);
-
-  geometry_msgs::Twist command;
-  ros::Rate loop_rate(5.0);
-   // Here you build your twist message
-   command.linear.x = 1;
-   command.linear.y = 0;
-   command.linear.z = 0;
-
-   command.angular.x = 0;
-   command.angular.y = 0;
-   command.angular.z = 0;
-
-   while(ros::ok() )
-   {
-       smart_pub.publish(command);
-
-       // Time between messages, so you don't blast out an thousands of
-       // messages in your 3 secondperiod
-       loop_rate.sleep();
-   }
-
+Walker Bot;
+Bot.Motion();
    return 0;
-    }
+}

@@ -197,6 +197,6 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
-add_executable(smart src/main.cpp)
+add_executable(smart src/main.cpp src/Walker.cpp)
 target_link_libraries(smart ${catkin_LIBRARIES})
 add_dependencies(smart zoomba_roomba_robot_generate_messages_cpp)
