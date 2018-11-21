@@ -90,12 +90,12 @@ geometry_msgs::Twist command;
   while (ros::ok()) {
     if (movement) {
       ROS_INFO("Translating %f", command.linear.x);
-      command.linear.x = 1;
+      command.linear.x = 0.3;
       command.angular.z = 0;
       } else {
       ROS_INFO("Rotating %f", command.linear.x);
       command.linear.x = 0;
-      command.angular.z = 0.8;
+      command.angular.z = 0.4;
       }
      velocityPublish.publish(command);
      ros::spinOnce();
